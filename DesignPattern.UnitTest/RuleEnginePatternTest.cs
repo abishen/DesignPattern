@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using DesignPattern.RuleEngine_CardValidation;
 using NUnit.Framework;
 
@@ -20,5 +21,14 @@ namespace DesignPattern.UnitTest
         [TestCase(null, ExpectedResult = CardType.Unknown, Description = "Verify Incorrect Card Number")]
         public CardType VerifyCardType(string cardNumber)
             => _cardTypeVerficationService.GetCardTypeVerification(cardNumber);
+
+
+        [TestCase("4400000")]
+        public void VerifyCardTypeThrow(string cardNumber)
+        {
+            var ex = Assert.Throws<ValidationException>(() =>
+                _cardTypeVerficationService.GetCardTypeVerification(cardNumber));
+            Assert.AreEqual("Card Number is Invalid", ex.Message);
+        }
     }
 }
