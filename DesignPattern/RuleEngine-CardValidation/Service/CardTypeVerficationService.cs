@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Headers;
+using DesignPattern.RuleEngine_CardValidation.Rule.Interface;
 
-namespace DesignPattern.RuleEngine_CardValidation
+namespace DesignPattern.RuleEngine_CardValidation.Service
 {
     public class CardTypeVerficationService
     {
+        private readonly GenerateCardRuleService _cardRuleService;
+        private readonly IEnumerable<IRule?> _rules;
+
+        public CardTypeVerficationService()
+        {
+            _cardRuleService = new GenerateCardRuleService();
+            _rules = _cardRuleService.GetRules();
+        }
 
         public CardType GetCardTypeVerification(string cardNumber)
         {
@@ -21,13 +26,8 @@ namespace DesignPattern.RuleEngine_CardValidation
             {
                 throw new ValidationException("Card Number is Invalid");
             }
-            
-            var ruleType = typeof(IRule);
-            IEnumerable<IRule?> rules = this.GetType().Assembly.GetTypes()
-                .Where(p => ruleType.IsAssignableFrom(p) && !p.IsInterface)
-                .Select(r => Activator.CreateInstance(r) as IRule);
 
-            return rules.FirstOrDefault(x => x.IsCardValid(cardNumber))!.GetCardType();
+            return _rules.FirstOrDefault(x => x.IsCardValid(cardNumber))!.GetCardType();
         }
 
 

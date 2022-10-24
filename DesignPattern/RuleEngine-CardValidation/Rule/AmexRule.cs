@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using DesignPattern.RuleEngine_CardValidation.Rule.Interface;
 
-namespace DesignPattern.RuleEngine_CardValidation
+namespace DesignPattern.RuleEngine_CardValidation.Rule
 {
     public class AmexRule : IRule
     {
+        private const string CardFirstDigitPattern = "^(34|37)";
+        private const int CardNumberLenght = 15;
         public bool IsCardValid(string cardNumber)
-        => (cardNumber.Length == 15 && Regex.IsMatch(cardNumber,"^(34|37)"));
+        =>(Ex.IsValidBy(cardNumber,CardNumberLenght,CardFirstDigitPattern));
 
         public CardType GetCardType()
             => CardType.AMEX;

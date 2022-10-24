@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using DesignPattern.RuleEngine_CardValidation;
+using DesignPattern.RuleEngine_CardValidation.Service;
 using NUnit.Framework;
 
 namespace DesignPattern.UnitTest

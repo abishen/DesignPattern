@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using DesignPattern.RuleEngine_CardValidation.Rule.Interface;
 
-namespace DesignPattern.RuleEngine_CardValidation
+namespace DesignPattern.RuleEngine_CardValidation.Rule
 {
     public class MasterCardRule : IRule
     {
+        private const string CardFirstDigitPattern = "^(51|52|53|54|55)";
+        private const int CardNumberLenght = 16;
         public bool IsCardValid(string cardNumber)
-            => (cardNumber.Length == 16 && Regex.IsMatch(cardNumber, "^(51|52|53|54|55)"));
+            => (Ex.IsValidBy(cardNumber,CardNumberLenght,CardFirstDigitPattern));
 
         public CardType GetCardType()
             => CardType.MasterCard;
